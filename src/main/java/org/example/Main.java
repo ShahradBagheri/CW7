@@ -1,19 +1,15 @@
 package org.example;
 
 import entity.User;
-import repository.UserRepository;
-import repository.UserRepositoryImpl;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
+import service.UserService;
+import service.UserServiceImpl;
 import java.sql.SQLException;
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        UserRepository userRepository = new UserRepositoryImpl();
+        UserService userService = new UserServiceImpl();
 
-        User user = new User("testing","test","tester","123","321");
-        userRepository.delete(1);
+        User user = new User("testing","test","tester","123","3217");
+        userService.save(user);
     }
 }

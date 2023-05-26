@@ -11,4 +11,6 @@ public interface UserRepository {
     void delete(int id)throws SQLException;
     User[] loadAll() throws SQLException;
     void saveAll(User[] users) throws SQLException;
+    boolean natCodeValidation(String natCode) throws SQLException;
+    public boolean usernameValidation(String username) throws SQLException;
 }

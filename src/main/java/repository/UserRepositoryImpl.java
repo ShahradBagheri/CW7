@@ -13,7 +13,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void save(User user) {
         try {
-            String query = "insert into public.user_table (firstname,lastname,username,password,nastional_code) values (?,?,?,?,?)";
+            String query = "insert into public.user_table (firstname,lastname,username,password,national_code) values (?,?,?,?,?)";
             PreparedStatement statement = ApplicationContext.getConnection().prepareStatement(query);
             statement.setString(1,user.getFirstname());
             statement.setString(2, user.getLastname());
@@ -50,7 +50,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void update(int id,User user) throws SQLException {
-        String query = "UPDATE user_table SET firstname = ?, lastname = ?, username = ? , password = ?, nastional_code = ? WHERE id = ?";
+        String query = "UPDATE user_table SET firstname = ?, lastname = ?, username = ? , password = ?, national_code = ? WHERE id = ?";
         PreparedStatement preparedStatement = ApplicationContext.getConnection().prepareStatement(query);
 
 
@@ -62,7 +62,6 @@ public class UserRepositoryImpl implements UserRepository {
         preparedStatement.setInt(6,id);
 
         preparedStatement.executeUpdate();
-
     }
 
     @Override
@@ -106,7 +105,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void saveAll(User[] users) throws SQLException {
         for (User user: users) {
-            String query = "insert into public.user_table (firstname,lastname,username,password,nastional_code) values (?,?,?,?,?)";
+            String query = "insert into public.user_table (firstname,lastname,username,password,national_code) values (?,?,?,?,?)";
             PreparedStatement statement = ApplicationContext.getConnection().prepareStatement(query);
             statement.setString(1,user.getFirstname());
             statement.setString(2, user.getLastname());
@@ -116,5 +115,38 @@ public class UserRepositoryImpl implements UserRepository {
 
             statement.executeUpdate();
         }
+    }
+
+    @Override
+    public boolean natCodeValidation(String natCode) throws SQLException {
+        boolean flag = true;
+
+        String query = "SELECT national_code FROM user_table";
+        Statement statement = ApplicationContext.getConnection().createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()){
+            if (resultSet.getString(1).equals(natCode)) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+
+    public boolean usernameValidation(String username) throws SQLException {
+        boolean flag = true;
+
+        String query = "SELECT username FROM user_table";
+        Statement statement = ApplicationContext.getConnection().createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()){
+            if (resultSet.getString(1).equals(username)) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
     }
 }

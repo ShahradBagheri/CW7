@@ -18,8 +18,4 @@ public class ConnectionUtils {
         }
         return null;
     }
-
-    public void save(){
-
-    }
 }

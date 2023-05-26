@@ -69,8 +69,8 @@ public class User {
         return nastionalCode;
     }
 
-    public void setNastionalCode(String nastionalCode) {
-        this.nastionalCode = nastionalCode;
+    public void setNastionalCode(String nationalCode) {
+        this.nastionalCode = nationalCode;
     }
 
     @Override
