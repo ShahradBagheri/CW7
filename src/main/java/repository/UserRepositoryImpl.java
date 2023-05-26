@@ -149,4 +149,36 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return flag;
     }
+
+    @Override
+    public boolean idValidation(int id) throws SQLException {
+        boolean flag = true;
+
+        String query = "SELECT id FROM user_table";
+        Statement statement = ApplicationContext.getConnection().createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()){
+            if (resultSet.getInt(1) == id) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean loginValidation(String username, String password) throws SQLException {
+        String query = "SELECT username,password FROM user_table WHERE username = ? AND password = ?";
+        PreparedStatement preparedStatement = ApplicationContext.getConnection().prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+        preparedStatement.setString(1,username);
+        preparedStatement.setString(2,password);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        resultSet.last();
+        int size = resultSet.getRow();
+
+        return size == 1;
+    }
 }
