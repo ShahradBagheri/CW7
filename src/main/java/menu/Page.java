@@ -38,14 +38,31 @@ public class Page {
         String firstname = scanner.nextLine();
         System.out.println("Lastname: ");
         String lastname = scanner.nextLine();
-        System.out.print("Username: ");
-        String username = scanner.nextLine();
+
+        String username;
+        while (true) {
+            System.out.print("Username: ");
+            username = scanner.nextLine();
+            if (!userService.usernameValidation(username)) {
+                break;
+            }
+            System.out.println("Username already exists please enter a new one");
+        }
+
         System.out.print("Password: ");
         String password = scanner.nextLine();
-        System.out.println("National code: ");
-        String nationalCode = scanner.nextLine();
 
-        User user = new User(firstname,lastname,username,password,nationalCode);
+        String nationalCode;
+        while (true){
+            System.out.println("National code: ");
+            nationalCode = scanner.nextLine();
+            if(!userService.natCodeValidation(nationalCode)){
+                break;
+            }
+            System.out.println("National code is already in use");
+        }
+
+        User user = new User(firstname, lastname, username, password, nationalCode);
 
         if (!userService.usernameValidation(user.getUsername()) && !userService.natCodeValidation(user.getNastionalCode()))
             userService.save(user);
